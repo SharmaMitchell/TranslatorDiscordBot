@@ -15,3 +15,6 @@ The bot is currently capable of Japanese to English translation, and English to 
 The main feature I plan to integrate is "translation via reply", in which users could reply to a Japanese message with "!translate", and have the entire message translated by the bot. This would reduce chat clutter (albeit only slightly), and vastly improve the bot's usability.
 
 There are many additonal features I'd like to add, such as private translation (to further reduce chat clutter) and pronunciation lookup (using Forvo's API). However, there are significant roadblocks and drawbacks to both of those features, so I don't see myself implementing them in the near future. See wiki for details.
+
+# Known Issues
+In order to determine input language before the API call, the program checks if the input string can be encoded in ASCII. If it can be, the input is considered English. Otherwise, the input is considered Japanese. Because of this, input containing emojis and other characters outside of the ASCII character set will be considered Japanese, and be translated into English. Thus, English messages containing emojis cannot be translated into Japanese. (Japanese messages containing emojis are not affected)
