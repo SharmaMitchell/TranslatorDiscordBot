@@ -1,6 +1,5 @@
 import os
 import requests
-#from secrets import DEEPL_API_KEY
 from keep_alive import keep_alive
 from discord.ext import commands
 
@@ -9,21 +8,20 @@ bot = commands.Bot(
 	case_insensitive=True  # Commands aren't case-sensitive
 )
 
-bot.author_id = 157610726326927361  # Change to your discord id!!!
+bot.author_id = 157610726326927361
 
 @bot.event 
 async def on_ready():  # When the bot is ready
     print("I'm in")
-    print(bot.user)  # Prints the bot's username and identifier
-
-@bot.command()
-async def test(ctx):
-	await ctx.send("hai")
+    print(bot.user)  # Prints the bot's username and ID
 
 @bot.command()
 async def translate(ctx,*args):
 	translateMe = ""
 	for arg in args: translateMe += arg + " "
+	if translateMe == "":
+		translateMe = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+		translateMe = translateMe.content
 	if(translateMe.isascii()): # Text is EN if all chars are ascii
 		source_lang = 'EN'
 		target_lang = 'JA'
@@ -43,8 +41,8 @@ async def translate(ctx,*args):
 		errMsg = "Translation failed. Error code: {}".format(response.status_code)
 		await ctx.reply(errMsg)
 
-extensions = [
-	#'cogs.cog_example'  # Same name as it would be if you were importing it
+extensions = [ # Not using cogs for now
+	#'cogs.cog_example'
 	#'cogs.cog_translate'
 ]
 
