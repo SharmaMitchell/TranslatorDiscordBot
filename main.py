@@ -24,7 +24,7 @@ async def test(ctx):
 async def translate(ctx,*args):
 	translateMe = ""
 	for arg in args: translateMe += arg + " "
-	if(translateMe.replace(" ","").isalnum()): # Text is EN if all chars (besides spaces) are alphanumeric
+	if(translateMe.isascii()): # Text is EN if all chars are ascii
 		source_lang = 'EN'
 		target_lang = 'JA'
 		print("EN->JP")
@@ -35,7 +35,7 @@ async def translate(ctx,*args):
 	headers = {'text' : translateMe, 'source_lang' : source_lang, 'target_lang' : target_lang}
 	response = requests.get(url, headers)
 	responseJSON = response.json()
-	#print(responseJSON)
+	print(responseJSON)
 	try:
 		result = responseJSON['translations'][0]['text']
 		await ctx.reply(result)
