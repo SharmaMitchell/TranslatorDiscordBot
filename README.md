@@ -8,8 +8,11 @@ I created this bot for use on a Japanese learning Discord server. When I was a b
 
 My hope is that by giving members access to a convenient translation tool, beginners will feel less overwhelmed when peering into a chat full of higher-level Japanese speakers, and more confident to join in the conversation.
 
+# The Implementation
+I used the python request module to send an API request to DeepL containing the source text, source language, and target language. Source text is any input after the '!translate' command, or (in the case of no input) the message that the '!translate' command replied to. The bot then replies DeepL's response to the user who used '!translate'. The bot is hosted on replit as an always-on repl
+
 # Current Features
-The bot is currently capable of Japanese to English translation, and English to Japanese translation (in most cases - see wiki for details). As of now, users can translate Japanese or English phrases by entering: "!translate [phrase]" into the Discord chat. Additionally, users can reply to any message with "!translate" to have the entire message translated. The bot will perform an API call using DeepL's translation API, and reply to the user with their translated text.
+The bot is currently capable of Japanese to English translation, and English to Japanese translation (in most cases - see wiki for details). As of now, users can translate Japanese or English phrases by entering: "!translate [phrase]" into the Discord chat. Additionally, users can reply to any message with "!translate" to have the entire message translated.
 
 # Planned Features
 There are many additional features I'd like to add, such as private translation (to further reduce chat clutter) and pronunciation lookup (using Forvo's API). However, there are significant roadblocks and drawbacks to both of those features, so I don't see myself implementing them in the near future. See wiki for details.
