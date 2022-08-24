@@ -26,6 +26,9 @@ The bot is currently capable of Japanese to English translation, and English to 
 There are many additional features I'd like to add, such as private translation (to further reduce chat clutter) and pronunciation lookup (using Forvo's API). However, there are significant roadblocks and drawbacks to both of those features, so I don't see myself implementing them in the near future. See wiki for details.
 
 # Known Issues
-In order to determine input language before the API call, the program checks if the input string can be encoded in ASCII. If it can be, the input is considered English. Otherwise, the input is considered Japanese. Because of this, input containing emojis and other characters outside of the ASCII character set will be considered Japanese, and be translated into English. Thus, English messages containing emojis cannot be translated into Japanese. (Japanese messages containing emojis are not affected)
+- Text containing *any* non-ASCII text (excluding emojis) is treated as Japanese
+- Custom Discord community emojis excluded from output, or "demojified" (replaced with emoji name)
 
-Planned fix: check if the returned translation is equal to the source text. If so, swap the source & target langauges and try again.
+Both of the above issues are because of how the bot checks source language of input text: by convering unicode emojis to their english representation (e.g. 😂 -> \: joy \:), then checking if the string is able to be encoded in ASCII. 
+
+This method is fast (yielding fast translation throughput), and works as intended for the bot's use case. However, in rare cases it can result in unexpected translation output. For example, if a sentence that is 99% English contains a single Japanese character, it will be "translated" back into English. Custom emoji for Discord communities are also sometimes "demojified" (converted to their emoji title), and returned to the discord chat as-is in the translation output. 
