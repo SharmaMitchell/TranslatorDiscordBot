@@ -1,3 +1,5 @@
 Time, User, Server, Channel, Source_Lang, Target_Lang, TranslateMe, Result
 2022-08-24 02:36:11,Mitch#9278,Bot Testing Server,general,EN,JA,I'm testing my translator bot ,翻訳ボットをテストしています
 2022-08-24 02:36:28,Mitch#9278,Bot Testing Server,general,EN,JA,yay it works ,やったー
+2022-08-24 21:29:11,Mitch#9278,Bot Testing Server,general,EN,JA,"will this, comma break the log file? ",は、この、カンマがログファイルを壊してしまうのでしょうか？
+2022-08-24 16:40:43,Mitch#9278,Bot Testing Server,general,EN,JA,this should fix this timezone ,これでタイムゾーンが修正されるはずです

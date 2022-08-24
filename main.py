@@ -4,7 +4,7 @@ import emoji
 import csv
 from keep_alive import keep_alive
 from discord.ext import commands
-from datetime import datetime
+from datetime import datetime, timedelta
 
 bot = commands.Bot(
 	command_prefix="!",  # Change to desired prefix
@@ -15,7 +15,7 @@ bot.author_id = 157610726326927361
 
 def log(user, server, channel, source_lang, target_lang, translateMe, result):
 	with open('./log.csv', 'a', encoding='UTF8', newline='') as f:
-		now = datetime.now()
+		now = datetime.now() - timedelta(hours=5)
 		now = now.strftime("%Y-%m-%d %H:%M:%S")
 		row = [now, user, server, channel, source_lang, target_lang, translateMe, result]
 		writer = csv.writer(f)
