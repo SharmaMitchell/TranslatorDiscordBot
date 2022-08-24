@@ -8,6 +8,7 @@ authors = ["Mitchell Sharma <https://github.com/SharmaMitchell/>"]
 python = "^3.8"
 "discord.py" = "^1.3.4"
 Flask = "^2.0.2"
+emoji = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 
