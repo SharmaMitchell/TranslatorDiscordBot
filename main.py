@@ -12,7 +12,7 @@ intents.members = True
 
 bot = commands.Bot(
     intents=intents,
-	  command_prefix="!",  # Change to desired prefix
+    command_prefix="!",  # Change to desired prefix
     case_insensitive=True  # Commands aren't case-sensitive
 )
 
@@ -35,14 +35,15 @@ def log(user, server, channel, source_lang, target_lang, translateMe, result):
 async def on_ready():  # When the bot is ready
     print("Bot connected!")
     print(bot.user)  # Prints the bot's username and ID
-    print("Serving ", sum(len(g.members) for g in bot.guilds), " users, across ", len(bot.guilds), " servers")
+    print("Serving ", sum(len(g.members) for g in bot.guilds),
+          " users, across ", len(bot.guilds), " servers")
 
 
 @bot.command(name="translate", aliases=["tl"])
 async def translate(ctx, *args):
     '''Translates JP -> EN, and vice-versa.\n
-	Reply to a message you wish to translate with: !translate\n
-	Or, enter: !translate [Sentence to be translated]'''
+        Reply to a message you wish to translate with: !translate\n
+        Or, enter: !translate [Sentence to be translated]'''
 
     channel = ctx.channel.name
     server = ctx.guild.name
@@ -52,7 +53,7 @@ async def translate(ctx, *args):
     for arg in args:
         translateMe += arg + " "
 
-    #print('{} from {} server in {} channel sent {}'.format(user, server, channel, translateMe))
+    # print('{} from {} server in {} channel sent {}'.format(user, server, channel, translateMe))
 
     print("Translation request: ", translateMe)
     if translateMe == "":  # If no args, get the msg this command replied to
@@ -60,7 +61,7 @@ async def translate(ctx, *args):
             ctx.message.reference.message_id)
         translateMe = translateMe.content
     if (emoji.demojize(translateMe).isascii()
-        ):  # Text is EN if all chars (excl emoji) are ascii
+            ):  # Text is EN if all chars (excl emoji) are ascii
         source_lang = 'EN'
         target_lang = 'JA'
     else:  # Else, text is JA
@@ -94,12 +95,12 @@ keep_alive()  # Starts a webserver to be pinged.
 token = os.environ['DISCORD_BOT_SECRET']
 
 try:
-		bot.run(token)  # Starts the bot
+    bot.run(token)  # Starts the bot
 except Exception as e:
-		print("Bot unable to start")
-		print(e.__class__)
-		print(e.status)
-		# print(e.__dict__)
-		print(e.response)
-		if e.status == 429:
-				print("Rate Limited, Unable to start")
+    print("Bot unable to start")
+    print(e.__class__)
+    print(e.status)
+    # print(e.__dict__)
+    print(e.response)
+    if e.status == 429:
+        print("Rate Limited, Unable to start")
