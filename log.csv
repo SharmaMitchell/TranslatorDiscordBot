@@ -3,3 +3,50 @@ Time, User, Server, Channel, Source_Lang, Target_Lang, TranslateMe, Result
 2022-08-24 02:36:28,Mitch#9278,Bot Testing Server,general,EN,JA,yay it works ,やったー
 2022-08-24 21:29:11,Mitch#9278,Bot Testing Server,general,EN,JA,"will this, comma break the log file? ",は、この、カンマがログファイルを壊してしまうのでしょうか？
 2022-08-24 16:40:43,Mitch#9278,Bot Testing Server,general,EN,JA,this should fix this timezone ,これでタイムゾーンが修正されるはずです
+2022-11-12 16:59:53,Mitch#9278,Bot Testing Server,general,EN,JA,!tl yay it works,!tl yay it works
+2022-11-20 04:41:43,Mitch#9278,Bot Testing Server,general,JA,EN,"キャッシュクリアしてこれで試してみて
+
+画像アップロードまわり不滅ノータッチ（他の人が書いてた）なのでどうなってるのかチェックしてない
+
+ようするにクライアントサイドの暗号化の結果とバックエンドで復号化するときのキーがずれてると発生する問題なので
+
+NEXT PUBLIC が正しくフロントエンドにエクスポートされてるかどうかチェックすると良さそう 
+
+ワンチャンそこでつまづいててundefinedで暗号化してるのでは？？みたいな気がします","Clear your cache and try this.
+
+I haven't checked what's going on since I'm indestructible no touch around image uploads (someone else wrote about it).
+
+In short, the problem occurs when the result of client-side encryption and the key used for back-end decryption are not the same.
+
+It might be a good idea to check if the NEXT PUBLIC is exported to the front end correctly.
+
+I wonder if there is a chance that you are getting stuck there and encrypting with undefined? I have a feeling that's the case."
+2022-11-24 04:33:12,Mitch#9278,Bot Testing Server,general,EN,JA,hello ,こんにちわ
+2022-11-24 04:35:27,Mitch#9278,tenet,dev-discussion,JA,EN,こう使います ,Use it like this
+2022-11-24 04:35:54,Mitch#9278,tenet,dev-discussion,JA,EN,またはこう,or so
+2022-11-24 04:36:27,不滅#2022,tenet,dev-discussion,EN,JA,okok,オコク
+2022-11-24 22:19:08,不滅#2022,tenet,dev-infra,JA,EN,"データの突っ込むところと読み取るところの検証をいったんやってみて
+運用周りのAPIとか試してどこに置くとか考えた方が良い","Once you've done the validation of where you're plugging in the data and where you're reading it.
+You should try out the API around the operation and figure out where to put it."
+2022-11-29 20:19:09,mandu#6927,jing liu fan club,weed-boos,JA,EN,あしたは なんようびですか ,what day is tomorrow?
+2022-11-29 21:21:36,mandu#6927,jing liu fan club,weed-boos,JA,EN,せんしゅうのしゅうまつ なにをしましたか ,the end of the last week What did you do?
+2022-11-29 21:25:20,mandu#6927,jing liu fan club,weed-boos,JA,EN,どんなたべものがすきですか ,What kind of food do you like?
+2022-12-03 09:18:48,SushiFam#2341,jing liu fan club,weed-boos,EN,JA,I like food ,食べ物が好き
+2022-12-03 09:21:58,SushiFam#2341,haha,general,EN,JA,hello how are you today ,おはこんばんちは
+2022-12-03 09:22:27,SushiFam#2341,haha,general,EN,JA,are you well ,お元気ですか
+2022-12-03 09:22:40,SushiFam#2341,haha,general,EN,JA,what is your name ,なまえ
+2022-12-03 09:22:50,SushiFam#2341,haha,general,EN,JA,what is your name? ,なまえをいいなさい
+2022-12-03 09:23:07,SushiFam#2341,haha,general,EN,JA,your name? ,君の名は？
+2022-12-03 09:23:37,SushiFam#2341,haha,general,EN,JA,"sorry, maybe next time ",ごめん、また今度
+2022-12-07 21:47:14,不滅#2022,tenet,schedule,JA,EN,引越し,"moving (dwelling, office, etc.)"
+2022-12-18 00:21:06,不滅#2022,tenet,schedule,EN,JA,I guess what I did was talk to tax accountant and cobble together a contract for the future.,私がしたことは、税理士に相談し、将来のために契約書をこつこつと作ったことでしょう。
+2022-12-18 00:24:52,不滅#2022,tenet,schedule,EN,JA,talked with our tax accountant and cobbled together for a contract for the future,税理士と相談し、今後の契約書をこつこつと作成した。
+2023-01-06 18:48:43,ヒスイ#2341,haha,general,EN,JA,your name ,尊名
+2023-01-06 18:49:02,ヒスイ#2341,haha,general,EN,JA,i love you ,アイラブユー
+2023-01-06 18:49:20,ヒスイ#2341,haha,general,EN,JA,i am japanese ,アイアムジャパニーズ
+2023-01-06 18:50:53,ヒスイ#2341,haha,general,JA,EN,あれは複合櫂船白都への輪送船です ,"That's a compound oar boat, a rickshaw to the white city."
+2023-01-18 05:29:42,不滅#2022,tenet,dev,JA,EN,見通しだと1週間ありゃ終わるけど帰国手続きがわちゃわちゃしてるので2月中旬に再稼働目指してる,"According to the forecast, it should be over in a week, but since the return process is a bit of a mess, they are aiming to restart operations in mid-February."
+2023-01-21 19:16:55,Rider#0820,Serveur,salon-test,EN,JA,hello ,こんにちわ
+2023-01-21 19:17:08,Rider#0820,Serveur,salon-test,EN,JA,hello fr ,ハローフレーズ
+2023-01-21 19:17:16,Rider#0820,Serveur,salon-test,EN,JA,hello ,こんにちわ
+2023-01-26 19:23:22,Mitch#9278,Bot Testing Server,general,EN,JA,woo ,口説く
