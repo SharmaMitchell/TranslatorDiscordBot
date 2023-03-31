@@ -16,7 +16,7 @@ bot = commands.Bot(
     case_insensitive=True  # Commands aren't case-sensitive
 )
 
-bot.author_id = 157610726326927361
+bot.author_id = os.environ['DISCORD_BOT_AUTHOR_ID']
 
 
 def log(user, server, channel, source_lang, target_lang, translateMe, result):
