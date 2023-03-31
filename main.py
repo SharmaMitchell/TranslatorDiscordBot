@@ -16,9 +16,9 @@ bot = commands.Bot(
     case_insensitive=True  # Commands aren't case-sensitive
 )
 
-bot.author_id = os.environ['DISCORD_BOT_AUTHOR_ID']
+bot.author_id = os.environ['DISCORD_BOT_AUTHOR_ID']  # Discord ID of the bot author
 
-
+# Log file for testing purposes
 def log(user, server, channel, source_lang, target_lang, translateMe, result):
     with open('./log.csv', 'a', encoding='UTF8', newline='') as f:
         now = datetime.now() - timedelta(hours=5)
@@ -92,7 +92,7 @@ async def translate(ctx, *args):
 
 
 keep_alive()  # Starts a webserver to be pinged.
-token = os.environ['DISCORD_BOT_SECRET']
+token = os.environ['DISCORD_BOT_SECRET']  # Discord bot token: Discord dev portal -> Your Bot -> Token
 
 try:
     bot.run(token)  # Starts the bot
