@@ -12,7 +12,7 @@ To use the bot for Japanese-English translation, you can add my deployment calle
 
 To adapt the bot to your own use case (different languages, translation tools, slash commands, etc.), fork the repository and create your own `DEEPL_API_KEY`, `DISCORD_BOT_SECRET`, and `DISCORD_BOT_AUTHOR_ID` environment variables. After that, you should be able to run the bot and change it as needed!
 
-Feel free to reach out to me (Mitchell) on [Discord](https://discord.com/users/157610726326927361) if you have any questions.
+Feel free to reach out to me (Mitchell) via [Email](mailto:sharmamitch+gh@gmail.com) if you have any questions.
 
 ## Current Features
 The bot is currently capable of Japanese to English translation, and English to Japanese translation (in most cases - see wiki for details). As of now, users can translate Japanese or English phrases by entering: "!translate [phrase]" into the Discord chat. Additionally, users can reply to any message with "!translate" to have the entire message translated.
