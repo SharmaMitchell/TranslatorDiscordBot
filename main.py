@@ -30,8 +30,18 @@ def get_translation_count():
         count = 0  # If the file doesn't exist, assume 0 translations
     return count
 
-def update_translation_count(count):
-    with open('./messageCount.txt', 'w') as file:
+def increment_translation_count():
+    with open('./messageCount.txt', 'r+') as file:
+        # Read the current count, and default to 0 if file is empty
+        count = int(file.read()) or 0
+        
+        # Increment the count
+        count += 1
+        
+        # Move the file pointer to the beginning of the file
+        file.seek(0)
+        
+        # Write the updated count as a string
         file.write(str(count))
 
 @bot.event
