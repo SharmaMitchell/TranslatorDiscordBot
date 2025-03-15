@@ -6,9 +6,13 @@ import discord
 from keep_alive import keep_alive
 from discord.ext import commands
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 intents = discord.Intents.default()
 intents.members = True
+intents.message_content = True
 
 bot = commands.Bot(
     intents=intents,
@@ -35,8 +39,11 @@ def log(user, server, channel, source_lang, target_lang, translateMe, result):
 async def on_ready():  # When the bot is ready
     print("Bot connected!")
     print(bot.user)  # Prints the bot's username and ID
-    print("Serving ", sum(len(g.members) for g in bot.guilds),
-          " users, across ", len(bot.guilds), " servers")
+    user_count = sum(len(g.members) for g in bot.guilds)
+    server_count = len(bot.guilds)
+    activityMessage = f"Serving {user_count} users, across {server_count} servers" 
+    print(activityMessage)
+    await bot.change_presence(activity=discord.CustomActivity(name=activityMessage))
 
 
 @bot.command(name="translate", aliases=["tl"])
@@ -45,6 +52,7 @@ async def translate(ctx, *args):
         Reply to a message you wish to translate with: !translate\n
         Or, enter: !translate [Sentence to be translated]'''
 
+    print('TL request received')
     channel = ctx.channel.name
     server = ctx.guild.name
     user = ctx.author
@@ -74,9 +82,10 @@ async def translate(ctx, *args):
         'source_lang': source_lang,
         'target_lang': target_lang
     }
-    response = requests.get(url, headers)
-    responseJSON = response.json()
+    
     try:
+        response = requests.get(url, headers)
+        responseJSON = response.json()
         result = responseJSON['translations'][0]['text']
         print("Translated output: ", result)
         await ctx.reply(result)
