@@ -11,7 +11,7 @@ You agree to use KomiBot in accordance with Discord’s [Terms of Service](https
 KomiBot provides translation services for text, which are processed by the **DeepL API**. By using the bot, you agree to send text data to DeepL’s servers for translation. Please review [DeepL’s Privacy Policy](https://support.deepl.com/hc/en-us/articles/360020556980-Privacy-Data-protection) for more details on their data handling practices.
 
 ## 3. Data Collection
-KomiBot logs translation requests for debugging and operational purposes. This includes the user’s Discord name, server, channel, source and target languages, the original text, and the translated text. Logs are stored indefinitely.
+KomiBot does not store or log any content of translation requests. The bot processes translation requests in real-time but does not retain any messages, translated text, or user data. The bot tracks the total number of translations processed, which is stored solely for operational purposes and is not tied to individual messages or users.
 
 ## 4. Limitation of Liability
 KomiBot is provided "as is" without warranties of any kind, either express or implied. We do not guarantee the accuracy, reliability, or availability of the bot or the translation services. The bot’s creators are not liable for any damages, losses, or issues arising from the use of KomiBot.
