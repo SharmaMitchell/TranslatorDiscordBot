@@ -21,21 +21,25 @@ bot = commands.Bot(
 
 bot.author_id = os.environ['DISCORD_BOT_AUTHOR_ID']  # Discord ID of the bot author
 
+messageCountFile = os.getenv('MESSAGE_COUNT_FILEPATH')
+
 # Function to update and retrieve the translation count from a file
 def get_translation_count():
     try:
-        with open('./messageCount.txt', 'r') as file:
+        with open(messageCountFile, 'r') as file:
             count = int(file.read())
     except FileNotFoundError:
         count = 0  # If the file doesn't exist, assume 0 translations
     return count
 
 def increment_translation_count():
+    print("Incrementing TL count")
     try:
         # Open the file in read and write mode
-        with open('./messageCount.txt', 'r+') as file:
+        with open(messageCountFile, 'r+') as file:
             # Read the current count from the file
             file_content = file.read()
+            print("messageCount content: ", file_content)
 
             # If the file is empty or has an invalid value, start with count = 0
             if file_content.strip() == "":  # Checking if the file is empty
@@ -54,8 +58,9 @@ def increment_translation_count():
 
     except FileNotFoundError:
         # If the file doesn't exist, create it and write the count as 1
-        with open('./messageCount.txt', 'w') as file:
+        with open(messageCountFile, 'w') as file:
             file.write("1")
+            print("File created and initialized to 1.")
     except Exception as e:
         # Catch any other unexpected errors
         print(f"An error occurred: {e}")
@@ -139,6 +144,7 @@ async def translate(ctx, *args):
             response.status_code)
         print("Error: ", response.text)
         await ctx.reply(errMsg)
+    
     increment_translation_count()
 
 
