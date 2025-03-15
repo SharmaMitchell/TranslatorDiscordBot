@@ -38,11 +38,33 @@ def update_translation_count(count):
 async def on_ready():  # When the bot is ready
     print("Bot connected!")
     print(bot.user)  # Prints the bot's username and ID
-    user_count = sum(g.approximate_member_count for g in bot.guilds)
+    
+    # List to store guilds with their names and member counts
+    guilds_info = []
+    
+    # Fetch guilds with counts to get the approximate member count
+    async for guild in bot.fetch_guilds(with_counts=True):  # Fetch guilds with member counts
+        guilds_info.append((guild.name, guild.approximate_member_count or 0))
+    
+    # Sort the guilds by member count in descending order
+    guilds_info.sort(key=lambda x: x[1], reverse=True)
+    
+    # Total member count calculation
+    total_members = sum(guild[1] for guild in guilds_info)
+    
+    # Server count
     server_count = len(bot.guilds)
-    activityMessage = f"Serving {user_count} users, across {server_count} servers" 
+    
+    # Update the activity status with the total members and server count
+    activityMessage = f"Serving {total_members} users, across {server_count} servers"
     print(activityMessage)
     await bot.change_presence(activity=discord.CustomActivity(name=activityMessage))
+    
+    # Print the top 10 guilds by member count
+    print("\nTop 10 Guilds by Members:")
+    for i in range(min(10, len(guilds_info))):  # Print top 10 or less if there are fewer than 10 guilds
+        guild_name, member_count = guilds_info[i]
+        print(f"{i + 1}. {guild_name}: {member_count} members")
 
 
 @bot.command(name="translate", aliases=["tl"])
