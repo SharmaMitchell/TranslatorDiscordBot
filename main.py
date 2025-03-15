@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 intents = discord.Intents.default()
-intents.members = True
 intents.message_content = True
 
 bot = commands.Bot(
@@ -22,24 +21,24 @@ bot = commands.Bot(
 
 bot.author_id = os.environ['DISCORD_BOT_AUTHOR_ID']  # Discord ID of the bot author
 
-# Log file for testing purposes
-def log(user, server, channel, source_lang, target_lang, translateMe, result):
-    with open('./log.csv', 'a', encoding='UTF8', newline='') as f:
-        now = datetime.now() - timedelta(hours=5)
-        now = now.strftime("%Y-%m-%d %H:%M:%S")
-        row = [
-            now, user, server, channel, source_lang, target_lang, translateMe,
-            result
-        ]
-        writer = csv.writer(f)
-        writer.writerow(row)
+# Function to update and retrieve the translation count from a file
+def get_translation_count():
+    try:
+        with open('./messageCount.txt', 'r') as file:
+            count = int(file.read())
+    except FileNotFoundError:
+        count = 0  # If the file doesn't exist, assume 0 translations
+    return count
 
+def update_translation_count(count):
+    with open('./messageCount.txt', 'w') as file:
+        file.write(str(count))
 
 @bot.event
 async def on_ready():  # When the bot is ready
     print("Bot connected!")
     print(bot.user)  # Prints the bot's username and ID
-    user_count = sum(len(g.members) for g in bot.guilds)
+    user_count = sum(g.approximate_member_count for g in bot.guilds)
     server_count = len(bot.guilds)
     activityMessage = f"Serving {user_count} users, across {server_count} servers" 
     print(activityMessage)
@@ -60,8 +59,6 @@ async def translate(ctx, *args):
     translateMe = ""
     for arg in args:
         translateMe += arg + " "
-
-    # print('{} from {} server in {} channel sent {}'.format(user, server, channel, translateMe))
 
     print("Translation request: ", translateMe)
     if translateMe == "":  # If no args, get the msg this command replied to
@@ -89,15 +86,11 @@ async def translate(ctx, *args):
         result = responseJSON['translations'][0]['text']
         print("Translated output: ", result)
         await ctx.reply(result)
-        log(user, server, channel, source_lang, target_lang, translateMe,
-            result)
     except:
         errMsg = "Translation failed. Error code: {}".format(
             response.status_code)
         print("Error: ", errMsg)
         await ctx.reply(errMsg)
-        log(user, server, channel, source_lang, target_lang, translateMe,
-            errMsg)
 
 
 keep_alive()  # Starts a webserver to be pinged.
