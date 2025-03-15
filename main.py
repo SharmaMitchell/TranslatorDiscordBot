@@ -118,6 +118,7 @@ async def translate(ctx, *args):
         result = responseJSON['translations'][0]['text']
         print("Translated output: ", result)
         await ctx.reply(result)
+        increment_translation_count()
     except:
         errMsg = "Translation failed. Error code: {}".format(
             response.status_code)
