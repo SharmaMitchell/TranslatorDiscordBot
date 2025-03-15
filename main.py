@@ -145,7 +145,8 @@ async def translate(ctx, *args):
         print("Error: ", response.text)
         await ctx.reply(errMsg)
     
-    increment_translation_count()
+    if messageCountFile:
+        increment_translation_count()
 
 
 keep_alive()  # Starts a webserver to be pinged.
