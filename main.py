@@ -56,6 +56,9 @@ def increment_translation_count():
         # If the file doesn't exist, create it and write the count as 1
         with open('./messageCount.txt', 'w') as file:
             file.write("1")
+    except Exception as e:
+        # Catch any other unexpected errors
+        print(f"An error occurred: {e}")
 
 @bot.event
 async def on_ready():  # When the bot is ready
