@@ -31,18 +31,31 @@ def get_translation_count():
     return count
 
 def increment_translation_count():
-    with open('./messageCount.txt', 'r+') as file:
-        # Read the current count, and default to 0 if file is empty
-        count = int(file.read()) or 0
-        
-        # Increment the count
-        count += 1
-        
-        # Move the file pointer to the beginning of the file
-        file.seek(0)
-        
-        # Write the updated count as a string
-        file.write(str(count))
+    try:
+        # Open the file in read and write mode
+        with open('./messageCount.txt', 'r+') as file:
+            # Read the current count from the file
+            file_content = file.read()
+
+            # If the file is empty or has an invalid value, start with count = 0
+            if file_content.strip() == "":  # Checking if the file is empty
+                count = 0
+            else:
+                count = int(file_content)  # Convert the content to an integer
+
+            # Increment the count
+            count += 1
+
+            # Move the file pointer to the beginning of the file
+            file.seek(0)
+
+            # Write the updated count as a string
+            file.write(str(count))
+
+    except FileNotFoundError:
+        # If the file doesn't exist, create it and write the count as 1
+        with open('./messageCount.txt', 'w') as file:
+            file.write("1")
 
 @bot.event
 async def on_ready():  # When the bot is ready
@@ -118,12 +131,12 @@ async def translate(ctx, *args):
         result = responseJSON['translations'][0]['text']
         print("Translated output: ", result)
         await ctx.reply(result)
-        increment_translation_count()
     except:
         errMsg = "Translation failed. Error code: {}".format(
             response.status_code)
-        print("Error: ", errMsg)
+        print("Error: ", response.text)
         await ctx.reply(errMsg)
+    increment_translation_count()
 
 
 keep_alive()  # Starts a webserver to be pinged.
