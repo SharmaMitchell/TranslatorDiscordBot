@@ -2,7 +2,7 @@
 ![KomiBot-Banner](https://user-images.githubusercontent.com/90817905/162596866-dcc3a9cc-8abb-4575-bcf8-f015561e52f2.png)
 Created using the Discord.py python library for Discord chat integration, and DeepL's translation API.
 
-This bot translates Discord chat messages from Japanese to English (and vice versa). Users can enter "!translate [text]" into the Discord chat to have their text translated, or reply to a message with "!translate" to have the message they replied to translated. (The abbreviation "!tl" can also be used, in place of "!translate".)
+This bot translates Discord chat messages from Japanese to English (and vice versa). Users can enter "@KomiBot [text]" into the Discord chat to have their text translated, or reply to a message with "@KomiBot" to have the message they replied to translated.
 
 This functionality allows users to quickly look up words they don't know how to say in Japanese, translate words they don't understand into English, or translate entire phrases between the two languages - all without having to switch back & forth between a dictionary website and Discord. 
 See wiki for details & additional feature plans/ideas.
@@ -15,7 +15,7 @@ To adapt the bot to your own use case (different languages, translation tools, s
 Feel free to reach out to me (Mitchell) via [Email](mailto:sharmamitch+gh@gmail.com) if you have any questions.
 
 ## Current Features
-The bot is currently capable of Japanese to English translation, and English to Japanese translation (in most cases - see wiki for details). As of now, users can translate Japanese or English phrases by entering: "!translate [phrase]" into the Discord chat. Additionally, users can reply to any message with "!translate" to have the entire message translated.
+The bot is currently capable of Japanese to English translation, and English to Japanese translation (in most cases - see wiki for details). As of now, users can translate Japanese or English phrases by entering: "@KomiBot [phrase]" into the Discord chat. Additionally, users can reply to any message with "@KomiBot" to have the entire message translated.
 
 ## Planned Features
 There are many additional features I'd like to add, such as private translation via slash commands (to further reduce chat clutter) and pronunciation lookup (using Forvo's API). These are on my long-term to-do list for the bot, but will likely require significant refactoring to set up, so I'm not sure when they'll be available.  
@@ -36,11 +36,11 @@ I created this bot for use on a Japanese learning Discord server. As someone who
 My hope is that by giving members access to a convenient translation tool, beginners will feel less overwhelmed when peering into a chat room full of higher-level Japanese speakers, and more confident to join in the conversation.
 
 ## The Implementation
-I started by creating a simple Discord bot using the Discord.py library, which made it quick to set up a bot to monitor chat messages, waiting for a command. I then implemented a translation command, which would parse any text following "!translate" at the beginning of a chat message. Using the python request module, I set up a function to send the text from the translate command, along with the source & target languages, to the DeepL translation API, which would return the translated text. Finally, I used a Discord.py function to have the bot reply the translated text to the user who used the "!translate" command. 
+I started by creating a simple Discord bot using the Discord.py library, which made it quick to set up a bot to monitor chat messages, waiting for a command. I then implemented a translation command, which would parse any text following "@KomiBot" at the beginning of a chat message. Using the python request module, I set up a function to send the text from the translate command, along with the source & target languages, to the DeepL translation API, which would return the translated text. Finally, I used a Discord.py function to have the bot reply the translated text to the user who used the "@KomiBot" command. 
 
-I later iterated upon the !translate function to have it automatically detect the source language by checking if the source text can be encoded with ASCII. Japanese characters cannot be encoded with ASCII, so messages containing non-ASCII characters are sent to DeepL as Japanese to be translated into English (known issue: emojis. See wiki and/or "Known Issues" below)
+I later iterated upon the translation function to have it automatically detect the source language by checking if the source text can be encoded with ASCII. Japanese characters cannot be encoded with ASCII, so messages containing non-ASCII characters are sent to DeepL as Japanese to be translated into English (known issue: emojis. See wiki and/or "Known Issues" below)
 
-Additionally, I implemented a feature allowing users to reply to a message with the translation command to have the entire message translated. To do this, I added a condition to the translation function to check if the message containing the "!translate" command was empty (other than the command). In this case, the message that the command replied to will be used as the source text for the translation.
+Additionally, I implemented a feature allowing users to reply to a message with the translation command to have the entire message translated. To do this, I added a condition to the translation function to check if the message containing the "@KomiBot" command was empty (other than the command). In this case, the message that the command replied to will be used as the source text for the translation.
 
 
 
