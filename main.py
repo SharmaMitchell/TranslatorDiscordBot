@@ -94,11 +94,15 @@ async def on_message(message):
 
     # Check if the bot is mentioned
     if bot.user.mentioned_in(message):
-        # Extract the translation request by removing the mention
         translateMe = message.content.replace(f"<@{bot.user.id}>", "").strip()
 
-        if not translateMe:  # If no text provided, reply with usage instructions
-            await message.reply("Please provide text to translate after mentioning me.")
+        # If the message is a reply, fetch the replied-to message content
+        if message.reference and not translateMe:
+            replied_message = await message.channel.fetch_message(message.reference.message_id)
+            translateMe = replied_message.content.strip()
+
+        if not translateMe:  # If still no text provided, reply with usage instructions
+            await message.reply("Please provide text to translate after mentioning me or reply to a message.")
             return
 
         print("Translation request received:", translateMe)
