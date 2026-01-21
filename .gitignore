@@ -1,2 +1,3 @@
 .env
 messageCount.txt
+__pycache__/
