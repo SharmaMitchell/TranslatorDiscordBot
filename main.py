@@ -5,8 +5,13 @@ import discord
 from keep_alive import keep_alive
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 intents = discord.Intents.default()  # Default intents, no message_content intent required
 intents.guilds = True  # Ensure guild-related events are enabled
@@ -28,37 +33,25 @@ def get_translation_count():
     return count
 
 def increment_translation_count():
-    print("Incrementing TL count")
     try:
-        # Open the file in read and write mode
+        # Ensure the directory for the message count file exists
+        os.makedirs(os.path.dirname(messageCountFile), exist_ok=True)
+
         with open(messageCountFile, 'r+') as file:
-            # Read the current count from the file
             file_content = file.read()
-            print("messageCount content: ", file_content)
-
-            # If the file is empty or has an invalid value, start with count = 0
-            if file_content.strip() == "":  # Checking if the file is empty
-                count = 0
-            else:
-                count = int(file_content)  # Convert the content to an integer
-
-            # Increment the count
+            count = int(file_content) if file_content.strip() else 0
             count += 1
-
-            # Move the file pointer to the beginning of the file
             file.seek(0)
-
-            # Write the updated count as a string
             file.write(str(count))
-
     except FileNotFoundError:
-        # If the file doesn't exist, create it and write the count as 1
-        with open(messageCountFile, 'w') as file:
-            file.write("1")
-            print("File created and initialized to 1.")
+        logger.warning(f"Message count file not found at {messageCountFile}. Initializing with count 1.")
+        try:
+            with open(messageCountFile, 'w') as file:
+                file.write("1")
+        except Exception as e:
+            logger.error(f"Failed to create message count file: {e}")
     except Exception as e:
-        # Catch any other unexpected errors
-        print(f"An error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}")
 
 @bot.event
 async def on_ready():  # When the bot is ready
@@ -118,22 +111,29 @@ async def on_message(message):
             source_lang = 'JA'
             target_lang = 'EN'
 
-        url = "https://api-free.deepl.com/v2/translate?auth_key={}".format(
-            os.getenv('DEEPL_API_KEY'))
+        url = "https://api-free.deepl.com/v2/translate"
         headers = {
+            'Authorization': f"DeepL-Auth-Key {os.getenv('DEEPL_API_KEY')}"
+        }
+        data = {
             'text': translateMe,
             'source_lang': source_lang,
             'target_lang': target_lang
         }
 
         try:
-            response = requests.get(url, headers)
+            response = requests.post(url, headers=headers, data=data)
             responseJSON = response.json()
-            result = responseJSON['translations'][0]['text']
-            print("Translated output:", result)
-            await message.reply(result)
+
+            if 'translations' in responseJSON and responseJSON['translations']:
+                result = responseJSON['translations'][0]['text']
+                print("Translated output:", result)
+                await message.reply(result)
+            else:
+                logger.error("Unexpected API response format: %s", responseJSON)
+                await message.reply("Translation failed due to an unexpected response format.")
         except Exception as e:
-            print("Error during translation:", e)
+            logger.error("Error during translation: %s", e)
             await message.reply("Translation failed. Please try again later.")
 
         if messageCountFile:
