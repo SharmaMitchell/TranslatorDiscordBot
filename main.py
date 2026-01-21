@@ -1,26 +1,21 @@
 import os
 import requests
 import emoji
-import csv
 import discord
 from keep_alive import keep_alive
-from discord.ext import commands
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
 
-intents = discord.Intents.default()
-intents.message_content = True
+intents = discord.Intents.default()  # Default intents, no message_content intent required
+intents.guilds = True  # Ensure guild-related events are enabled
+intents.messages = True  # Enable message events
+intents.reactions = True  # Enable reaction events
 
-bot = commands.Bot(
-    intents=intents,
-    command_prefix="!",  # Change to desired prefix
-    case_insensitive=True  # Commands aren't case-sensitive
-)
+bot = discord.Client(intents=intents)
 
 bot.author_id = os.environ['DISCORD_BOT_AUTHOR_ID']  # Discord ID of the bot author
-
 messageCountFile = os.getenv('MESSAGE_COUNT_FILEPATH')
 
 # Function to update and retrieve the translation count from a file
@@ -98,56 +93,51 @@ async def on_ready():  # When the bot is ready
         print(f"{i + 1}. {guild_name}: {member_count} members")
 
 
-@bot.command(name="translate", aliases=["tl"])
-async def translate(ctx, *args):
-    '''Translates JP -> EN, and vice-versa.\n
-        Reply to a message you wish to translate with: !translate\n
-        Or, enter: !translate [Sentence to be translated]'''
+@bot.event
+async def on_message(message):
+    # Ignore messages from the bot itself
+    if message.author == bot.user:
+        return
 
-    print('TL request received')
-    channel = ctx.channel.name
-    server = ctx.guild.name
-    user = ctx.author
+    # Check if the bot is mentioned
+    if bot.user.mentioned_in(message):
+        # Extract the translation request by removing the mention
+        translateMe = message.content.replace(f"<@{bot.user.id}>", "").strip()
 
-    translateMe = ""
-    for arg in args:
-        translateMe += arg + " "
+        if not translateMe:  # If no text provided, reply with usage instructions
+            await message.reply("Please provide text to translate after mentioning me.")
+            return
 
-    print("Translation request: ", translateMe)
-    if translateMe == "":  # If no args, get the msg this command replied to
-        translateMe = await ctx.channel.fetch_message(
-            ctx.message.reference.message_id)
-        translateMe = translateMe.content
-    if (emoji.demojize(translateMe).isascii()
-            ):  # Text is EN if all chars (excl emoji) are ascii
-        source_lang = 'EN'
-        target_lang = 'JA'
-    else:  # Else, text is JA
-        source_lang = 'JA'
-        target_lang = 'EN'
-    url = "https://api-free.deepl.com/v2/translate?auth_key={}".format(
-        os.getenv('DEEPL_API_KEY'))
-    headers = {
-        'text': translateMe,
-        'source_lang': source_lang,
-        'target_lang': target_lang
-    }
-    
-    try:
-        response = requests.get(url, headers)
-        responseJSON = response.json()
-        result = responseJSON['translations'][0]['text']
-        print("Translated output: ", result)
-        await ctx.reply(result)
-    except:
-        errMsg = "Translation failed. Error code: {}".format(
-            response.status_code)
-        print("Error: ", response.text)
-        await ctx.reply(errMsg)
-    
-    if messageCountFile:
-        increment_translation_count()
+        print("Translation request received:", translateMe)
 
+        # Determine source and target languages
+        if emoji.demojize(translateMe).isascii():
+            source_lang = 'EN'
+            target_lang = 'JA'
+        else:
+            source_lang = 'JA'
+            target_lang = 'EN'
+
+        url = "https://api-free.deepl.com/v2/translate?auth_key={}".format(
+            os.getenv('DEEPL_API_KEY'))
+        headers = {
+            'text': translateMe,
+            'source_lang': source_lang,
+            'target_lang': target_lang
+        }
+
+        try:
+            response = requests.get(url, headers)
+            responseJSON = response.json()
+            result = responseJSON['translations'][0]['text']
+            print("Translated output:", result)
+            await message.reply(result)
+        except Exception as e:
+            print("Error during translation:", e)
+            await message.reply("Translation failed. Please try again later.")
+
+        if messageCountFile:
+            increment_translation_count()
 
 keep_alive()  # Starts a webserver to be pinged.
 token = os.environ['DISCORD_BOT_SECRET']  # Discord bot token: Discord dev portal -> Your Bot -> Token
